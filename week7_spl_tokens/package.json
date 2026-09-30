@@ -1,0 +1,26 @@
+{
+  "name": "spl-tokens-and-extensions",
+  "version": "1.0.0",
+  "description": "Week 7 Assignment: SPL Token Creation, Metadata, Mint, Transfer & Inspection",
+  "main": "src/run_all.ts",
+  "scripts": {
+    "start": "ts-node src/run_all.ts",
+    "create-mint": "ts-node src/01_create_mint.ts",
+    "metadata": "ts-node src/02_create_metadata.ts",
+    "mint": "ts-node src/03_mint_tokens.ts",
+    "transfer": "ts-node src/04_transfer_tokens.ts",
+    "inspect": "ts-node src/05_inspect_token.ts"
+  },
+  "dependencies": {
+    "@metaplex-foundation/mpl-token-metadata": "^3.2.1",
+    "@metaplex-foundation/umi": "^0.9.2",
+    "@metaplex-foundation/umi-bundle-defaults": "^0.9.2",
+    "@solana/spl-token": "^0.4.8",
+    "@solana/web3.js": "^1.95.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}

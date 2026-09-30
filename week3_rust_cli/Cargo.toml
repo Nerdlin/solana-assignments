@@ -1,0 +1,10 @@
+[package]
+name = "solana_rust_cli"
+version = "0.1.0"
+edition = "2021"
+description = "CLI program simulating Solana state, Borsh serialization, and runtime instruction processing"
+
+[dependencies]
+borsh = { version = "1.5", features = ["derive"] }
+borsh-derive = "1.5"
+thiserror = "1.0"

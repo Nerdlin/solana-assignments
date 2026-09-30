@@ -20,10 +20,10 @@ async function main() {
   const connection = getDevnetConnection();
   const senderWallet = getOrCreateWallet();
 
-  // Создаем тестовый кошелек получателя (или используем переданный аргументом)
+  // Создаем тестовый кошелек получателя (Тимур)
   const recipientWallet = Keypair.generate();
-  console.log(`👤 Отправитель: ${senderWallet.publicKey.toBase58()}`);
-  console.log(`👥 Получатель:  ${recipientWallet.publicKey.toBase58()}`);
+  console.log(`👤 Отправитель (Димаш): ${senderWallet.publicKey.toBase58()}`);
+  console.log(`👥 Получатель (Тимур):   ${recipientWallet.publicKey.toBase58()}`);
 
   console.log("\n📦 Получение ATA отправителя...");
   const senderATA = await getOrCreateAssociatedTokenAccount(

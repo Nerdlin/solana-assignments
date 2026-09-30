@@ -32,21 +32,21 @@ fn print_help() {
 fn run_full_demo() {
     println!("[1] Создание виртуальной среды Solana Runtime...");
     let program_id = Pubkey::from_str_simple("my_counter_program_id_11111111");
-    let user_pubkey = Pubkey::from_str_simple("alice_wallet_authority_keypair");
+    let dimash_pubkey = Pubkey::from_str_simple("dimash_wallet_authority_keypair");
     let counter_pubkey = Pubkey::from_str_simple("counter_account_pda_or_key");
-    let bob_pubkey = Pubkey::from_str_simple("bob_wallet_recipient_keypair");
+    let timur_pubkey = Pubkey::from_str_simple("timur_wallet_recipient_keypair");
 
     println!("  Program ID:       {}", program_id);
-    println!("  Alice (Signer):   {}", user_pubkey);
+    println!("  Димаш (Signer):   {}", dimash_pubkey);
     println!("  Counter Account:  {}", counter_pubkey);
-    println!("  Bob Account:      {}\n", bob_pubkey);
+    println!("  Тимур Account:    {}\n", timur_pubkey);
 
-    let mut alice_account = Account::new(user_pubkey, 5_000_000_000, Pubkey::from_str_simple("system_program"));
-    alice_account.is_signer = true;
+    let mut dimash_account = Account::new(dimash_pubkey, 5_000_000_000, Pubkey::from_str_simple("system_program"));
+    dimash_account.is_signer = true;
 
     let mut counter_account = Account::new(counter_pubkey, 2_000_000, program_id);
 
-    let mut bob_account = Account::new(bob_pubkey, 1_000_000_000, Pubkey::from_str_simple("system_program"));
+    let mut timur_account = Account::new(timur_pubkey, 1_000_000_000, Pubkey::from_str_simple("system_program"));
 
     println!("[2] Сериализация инструкции 'InitializeCounter {{ initial_count: 42 }}' через Borsh...");
     let init_instr = ProgramInstruction::InitializeCounter { initial_count: 42 };
@@ -54,7 +54,7 @@ fn run_full_demo() {
     println!("  Сырые байты инструкции: {:02x?}", init_bytes);
 
     println!("\n[3] Вызов процессора (эмуляция исполнения в Solana VM)...");
-    let mut accounts = vec![alice_account.clone(), counter_account.clone()];
+    let mut accounts = vec![dimash_account.clone(), counter_account.clone()];
     Processor::process(&program_id, &mut accounts, &init_bytes).expect("Init failed");
     counter_account = accounts[1].clone();
 
@@ -68,26 +68,26 @@ fn run_full_demo() {
     let decoded_counter: CounterState = borsh::from_slice(&counter_account.data).unwrap();
     println!("  Десериализованное состояние счетчика: count = {}, authority = {}", decoded_counter.count, decoded_counter.authority);
 
-    println!("\n[5] Тестирование перевода 1.5 SOL (1_500_000_000 лампортов) от Alice к Bob...");
+    println!("\n[5] Тестирование перевода 1.5 SOL (1_500_000_000 лампортов) от Димаша к Тимуру...");
     let transfer_instr = ProgramInstruction::TransferLamports { lamports: 1_500_000_000 };
     let transfer_bytes = transfer_instr.pack();
-    let mut accounts = vec![alice_account.clone(), bob_account.clone()];
+    let mut accounts = vec![dimash_account.clone(), timur_account.clone()];
     Processor::process(&program_id, &mut accounts, &transfer_bytes).expect("Transfer failed");
-    alice_account = accounts[0].clone();
-    bob_account = accounts[1].clone();
+    dimash_account = accounts[0].clone();
+    timur_account = accounts[1].clone();
 
     println!("\n[6] Проверка отлова ошибок:");
     println!("  Попытка перевести больше, чем есть на балансе...");
     let overdraft_instr = ProgramInstruction::TransferLamports { lamports: 999_000_000_000 };
-    let mut accounts = vec![alice_account.clone(), bob_account.clone()];
+    let mut accounts = vec![dimash_account.clone(), timur_account.clone()];
     match Processor::process(&program_id, &mut accounts, &overdraft_instr.pack()) {
         Ok(_) => println!("  Неожиданный успех!"),
         Err(e) => println!("  [OK] Успешно поймана ошибка: {}", e),
     }
 
     println!("\n  Попытка выполнить операцию без подписи (is_signer = false)...");
-    alice_account.is_signer = false;
-    let mut accounts = vec![alice_account.clone(), bob_account.clone()];
+    dimash_account.is_signer = false;
+    let mut accounts = vec![dimash_account.clone(), timur_account.clone()];
     match Processor::process(&program_id, &mut accounts, &transfer_bytes) {
         Ok(_) => println!("  Неожиданный успех!"),
         Err(e) => println!("  [OK] Успешно поймана ошибка: {}", e),
@@ -123,10 +123,10 @@ fn main() {
             let username = args.get(2).cloned().unwrap_or_else(|| "solana_dev".to_string());
             let bio = args.get(3).cloned().unwrap_or_else(|| "Building on Solana".to_string());
             let program_id = Pubkey::from_str_simple("profile_program");
-            let mut alice = Account::new(Pubkey::from_str_simple("alice"), 1000, Pubkey::from_str_simple("sys"));
-            alice.is_signer = true;
-            let profile = Account::new(Pubkey::from_str_simple("alice_profile"), 0, program_id);
-            let mut accounts = vec![alice, profile];
+            let mut dimash = Account::new(Pubkey::from_str_simple("dimash"), 1000, Pubkey::from_str_simple("sys"));
+            dimash.is_signer = true;
+            let profile = Account::new(Pubkey::from_str_simple("dimash_profile"), 0, program_id);
+            let mut accounts = vec![dimash, profile];
             let instr = ProgramInstruction::UpdateProfile { username, bio }.pack();
             Processor::process(&program_id, &mut accounts, &instr).unwrap();
         }

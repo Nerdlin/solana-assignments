@@ -62,17 +62,17 @@ async function runFullPipeline() {
   );
   console.log(`   Mint Tx: ${explorerUrl(mintTx, "tx")}`);
 
-  console.log("\n[5] Создание второго кошелька (Bob) и перевод 1,500 токенов...");
-  const bobWallet = Keypair.generate();
-  console.log(`   Кошелек Bob: ${bobWallet.publicKey.toBase58()}`);
+  console.log("\n[5] Создание кошелька Тимура и перевод 1,500 токенов...");
+  const timurWallet = Keypair.generate();
+  console.log(`   Кошелек Тимура: ${timurWallet.publicKey.toBase58()}`);
 
-  const bobATA = await getOrCreateAssociatedTokenAccount(
+  const timurATA = await getOrCreateAssociatedTokenAccount(
     connection,
     wallet,
     mint,
-    bobWallet.publicKey
+    timurWallet.publicKey
   );
-  console.log(`   ATA адрес Bob: ${bobATA.address.toBase58()}`);
+  console.log(`   ATA адрес Тимура: ${timurATA.address.toBase58()}`);
 
   const transferAmount = 1_500;
   const rawTransfer = BigInt(transferAmount) * BigInt(10 ** decimals);
@@ -80,7 +80,7 @@ async function runFullPipeline() {
     connection,
     wallet,
     ownerATA.address,
-    bobATA.address,
+    timurATA.address,
     wallet,
     rawTransfer
   );
@@ -89,11 +89,11 @@ async function runFullPipeline() {
   console.log("\n[6] Проверка итоговых балансов в блокчейне Solana Devnet:");
   const mintInfo = await getMint(connection, mint);
   const ownerAccountInfo = await getAccount(connection, ownerATA.address);
-  const bobAccountInfo = await getAccount(connection, bobATA.address);
+  const timurAccountInfo = await getAccount(connection, timurATA.address);
 
   console.log(`   - Общая эмиссия (Total Supply): ${Number(mintInfo.supply) / 10 ** decimals} токенов`);
-  console.log(`   - Баланс создателя:           ${Number(ownerAccountInfo.amount) / 10 ** decimals} токенов`);
-  console.log(`   - Баланс Bob:                 ${Number(bobAccountInfo.amount) / 10 ** decimals} токенов`);
+  console.log(`   - Баланс создателя (Димаш):     ${Number(ownerAccountInfo.amount) / 10 ** decimals} токенов`);
+  console.log(`   - Баланс получателя (Тимур):    ${Number(timurAccountInfo.amount) / 10 ** decimals} токенов`);
 
   console.log("\n===============================================================");
   console.log(" Все операции по SPL Token (выпуск, mint, transfer, client)");

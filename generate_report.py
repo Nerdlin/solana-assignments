@@ -57,7 +57,7 @@ def create_human_report():
 
     p_sub = doc.add_paragraph()
     p_sub.paragraph_format.space_after = Pt(16)
-    r_sub = p_sub.add_run("Дисциплина: Startup / Web3 • Выполнил: Nerdlin")
+    r_sub = p_sub.add_run("Дисциплина: Startup / Web3 • Выполнили: Димаш и Тимур")
     r_sub.font.size = Pt(11)
     r_sub.font.italic = True
     r_sub.font.color.rgb = COLOR_MUTED
@@ -69,7 +69,7 @@ def create_human_report():
     tbl_meta.columns[1].width = Inches(4.7)
 
     meta_items = [
-        ("Студент:", "Nerdlin"),
+        ("Студенты / Авторы:", "Димаш и Тимур"),
         ("Охват работы:", "Недели 3, 4, 5, 6, 7 учебного плана"),
         ("Используемый стек:", "Rust, Borsh, solana-program, Anchor 0.30, TypeScript, @solana/web3.js, @solana/spl-token, Metaplex"),
     ]
@@ -155,7 +155,7 @@ def create_human_report():
         bp.add_run(k).font.bold = True
         bp.add_run(v)
 
-    add_note_box("В папке week3_rust_cli выполнить: cargo run -- demo. Программа наглядно выполнит сериализацию, инициализирует счетчик, сделает перевод лампортов и покажет перехват ошибок при нехватке денег или отсутствии подписи.")
+    add_note_box("В папке week3_rust_cli выполнить: cargo run -- demo. Программа наглядно выполнит сериализацию, создаст тестовые аккаунты Димаша и Тимура, инициализирует счетчик, сделает перевод лампортов и покажет перехват ошибок при нехватке денег или отсутствии подписи.")
 
     # --- НЕДЕЛЯ 4 ---
     add_chapter("Неделя 4: Первая Solana Program на Devnet", "2")
@@ -260,8 +260,8 @@ def create_human_report():
     w7_points = [
         ("1. Создание токена (01_create_mint.ts): ", "Создание Mint аккаунта с точностью 9 десятичных знаков (decimals = 9)."),
         ("2. Метаданные Metaplex (02_create_metadata.ts): ", "Привязка официальных метаданных по стандарту Metaplex Token Metadata V3: название 'Startup University Token', символ 'STARTUP' и ссылка на логотип."),
-        ("3. Чеканка токенов (03_mint_tokens.ts): ", "Создание связанного токен-аккаунта (ATA) для кошелька создателя и чеканка 50 000 токенов (MintTo)."),
-        ("4. Перевод другому владельцу (04_transfer_tokens.ts): ", "Генерация второго кошелька (Bob), создание его ATA и перевод 1 500 токенов с подтверждением транзакции."),
+        ("3. Чеканка токенов (03_mint_tokens.ts): ", "Создание связанного токен-аккаунта (ATA) для кошелька Димаша и чеканка 50 000 токенов (MintTo)."),
+        ("4. Перевод получателю (04_transfer_tokens.ts): ", "Генерация кошелька Тимура, создание его ATA и перевод 1 500 токенов от Димаша с подтверждением транзакции."),
         ("5. Проверка балансов (05_check_balances.ts): ", "Чтение финального состояния токена из блокчейна: общий объем предложения (Total Supply) и остатки на кошельках.")
     ]
     for k, v in w7_points:

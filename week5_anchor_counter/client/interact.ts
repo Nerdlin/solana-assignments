@@ -66,14 +66,35 @@ const IDL: any = {
   ],
 };
 
+import * as fs from "fs";
+import * as path from "path";
+
+function getRpcEndpoint(): string {
+  if (process.env.HELIUS_RPC_URL) return process.env.HELIUS_RPC_URL;
+  const envPaths = [path.join(__dirname, ".env"), path.join(__dirname, "../../.env")];
+  for (const ep of envPaths) {
+    if (fs.existsSync(ep)) {
+      for (const line of fs.readFileSync(ep, "utf-8").split("\n")) {
+        const trimmed = line.trim();
+        if (trimmed.startsWith("HELIUS_RPC_URL=")) {
+          return trimmed.slice("HELIUS_RPC_URL=".length).trim();
+        }
+      }
+    }
+  }
+  return clusterApiUrl("devnet");
+}
+
 async function main() {
   console.log("==========================================================");
   console.log("⚓ Anchor Counter Program Client (Devnet)");
   console.log("==========================================================");
 
-  const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+  const rpcUrl = getRpcEndpoint();
+  const connection = new Connection(rpcUrl, "confirmed");
   const payer = Keypair.generate();
   console.log(`🔑 Кошелек пользователя: ${payer.publicKey.toBase58()}`);
+  console.log(`🌐 Подключение к RPC: ${rpcUrl.substring(0, 32)}...`);
 
   const wallet = new anchor.Wallet(payer);
   const provider = new anchor.AnchorProvider(connection, wallet, { commitment: "confirmed" });

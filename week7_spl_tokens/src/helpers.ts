@@ -17,12 +17,15 @@ export function getDevnetConnection(): Connection {
     const targetEnv = fs.existsSync(envPath) ? envPath : (fs.existsSync(rootEnvPath) ? rootEnvPath : null);
     if (targetEnv) {
       const lines = fs.readFileSync(targetEnv, "utf-8").split("\n");
-      for (const line of lines) {
-        const [k, v] = line.split("=");
-        if (k && v && (k.trim() === "HELIUS_RPC_URL" || k.trim() === "SOLANA_RPC_URL")) {
-          const val = v.trim();
-          if (val && val.startsWith("http")) {
-            endpoint = val;
+      for (const rawLine of lines) {
+        const line = rawLine.trim();
+        if (!line || line.startsWith("#")) continue;
+        const eqIdx = line.indexOf("=");
+        if (eqIdx !== -1) {
+          const k = line.slice(0, eqIdx).trim();
+          const v = line.slice(eqIdx + 1).trim();
+          if ((k === "HELIUS_RPC_URL" || k === "SOLANA_RPC_URL") && v.startsWith("http")) {
+            endpoint = v;
             break;
           }
         }

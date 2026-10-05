@@ -36,15 +36,32 @@ class GreetingAccount {
 // Константа размера аккаунта (4 байта u32 + 4 байта длины строки + до 128 байт текста)
 const GREETING_SIZE = 4 + 4 + 128;
 
+function getRpcEndpoint(): string {
+  if (process.env.HELIUS_RPC_URL) return process.env.HELIUS_RPC_URL;
+  const envPaths = [path.join(__dirname, ".env"), path.join(__dirname, "../../.env")];
+  for (const ep of envPaths) {
+    if (fs.existsSync(ep)) {
+      for (const line of fs.readFileSync(ep, "utf-8").split("\n")) {
+        const trimmed = line.trim();
+        if (trimmed.startsWith("HELIUS_RPC_URL=")) {
+          return trimmed.slice("HELIUS_RPC_URL=".length).trim();
+        }
+      }
+    }
+  }
+  return clusterApiUrl("devnet");
+}
+
 async function main() {
   console.log("==========================================================");
   console.log("🌐 Взаимодействие с Первой Solana Program (Devnet)");
   console.log("==========================================================");
 
-  // 1. Подключение к Devnet
-  const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+  // 1. Подключение к Devnet (Helius RPC)
+  const rpcUrl = getRpcEndpoint();
+  const connection = new Connection(rpcUrl, "confirmed");
   const version = await connection.getVersion();
-  console.log(` Подключено к Solana Devnet (версия ноды: ${version["solana-core"]})`);
+  console.log(` Подключено к Solana Devnet (RPC: ${rpcUrl.substring(0, 32)}..., версия ноды: ${version["solana-core"]})`);
 
   // 2. Генерация или загрузка кошелька плательщика
   const payer = Keypair.generate();

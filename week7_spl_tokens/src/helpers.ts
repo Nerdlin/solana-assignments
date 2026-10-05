@@ -5,9 +5,36 @@ import * as path from "path";
 const WALLET_PATH = path.join(__dirname, "../wallet.json");
 
 /**
- * Получение подключения к кластеру Devnet
+ * Получение подключения к кластеру Devnet (с поддержкой Helius RPC)
  */
 export function getDevnetConnection(): Connection {
+  let endpoint = process.env.HELIUS_RPC_URL || process.env.SOLANA_RPC_URL;
+
+  // Попытка прочесть .env файл, если переменная не задана в системе
+  if (!endpoint) {
+    const envPath = path.join(__dirname, "../.env");
+    const rootEnvPath = path.join(__dirname, "../../.env");
+    const targetEnv = fs.existsSync(envPath) ? envPath : (fs.existsSync(rootEnvPath) ? rootEnvPath : null);
+    if (targetEnv) {
+      const lines = fs.readFileSync(targetEnv, "utf-8").split("\n");
+      for (const line of lines) {
+        const [k, v] = line.split("=");
+        if (k && v && (k.trim() === "HELIUS_RPC_URL" || k.trim() === "SOLANA_RPC_URL")) {
+          const val = v.trim();
+          if (val && val.startsWith("http")) {
+            endpoint = val;
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  if (endpoint) {
+    console.log(`🌐 Подключение через Helius RPC: ${endpoint.substring(0, 35)}...`);
+    return new Connection(endpoint, "confirmed");
+  }
+
   return new Connection(clusterApiUrl("devnet"), "confirmed");
 }
 

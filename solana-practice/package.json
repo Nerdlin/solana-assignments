@@ -1,0 +1,31 @@
+{
+  "name": "solana-practice",
+  "version": "1.0.0",
+  "main": "dist/solana-practice.js",
+  "scripts": {
+    "dev": "ts-node src/solana-practice.ts",
+    "mint": "ts-node src/token-mint.ts",
+    "build": "tsc"
+  },
+  "keywords": [
+    "solana",
+    "spl-token",
+    "helius",
+    "web3"
+  ],
+  "author": "Илья Коваленко",
+  "license": "ISC",
+  "dependencies": {
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.98.4",
+    "bs58": "^6.0.0",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@types/bs58": "^4.0.4",
+    "@types/node": "^22.13.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "description": "Практическое задание по Solana: переводы с Memo и минтинг SPL-токенов с Helius RPC"
+}

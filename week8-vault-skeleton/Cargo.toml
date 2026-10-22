@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "programs/week8_vault_skeleton"
+]
+resolver = "2"

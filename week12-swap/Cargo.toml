@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "programs/week12_swap"
+]
+resolver = "2"

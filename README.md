@@ -1,4 +1,4 @@
-# ⚡ Solana Engineering & Liquidity Vault (Weeks 3–13)
+# ⚡ Solana Engineering & Solana CLMM Vault(Weeks 3–13)
 
 <div align="center">
 
@@ -17,7 +17,7 @@
 
 ---
 
-## 🏛 Архитектура сквозного проекта «Liquidity Vault»
+## 🏛 Архитектура сквозного проекта «Solana CLMM Vault»
 
 ```mermaid
 flowchart TB

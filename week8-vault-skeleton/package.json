@@ -1,7 +1,7 @@
 {
   "name": "week8-vault-skeleton",
   "version": "0.1.0",
-  "description": "Week 8: Liquidity Vault Skeleton & User Card",
+  "description": "Week 8: Solana CLMM Vault Skeleton & User Card",
   "scripts": {
     "test": "ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts",
     "init-vault": "ts-node scripts/week8_init.ts"

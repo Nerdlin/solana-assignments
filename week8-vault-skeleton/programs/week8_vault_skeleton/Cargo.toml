@@ -1,7 +1,7 @@
 [package]
 name = "week8_vault_skeleton"
 version = "0.1.0"
-description = "Liquidity Vault Skeleton (Week 8)"
+description = "Solana CLMM Vault Skeleton (Week 8)"
 edition = "2021"
 
 [lib]

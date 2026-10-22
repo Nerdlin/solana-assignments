@@ -29,7 +29,7 @@ async function fundFromAdmin(
   await provider.sendAndConfirm(tx, [admin]);
 }
 
-describe("Liquidity Vault (Недели 8 - 13)", () => {
+describe("Solana CLMM Vault (Недели 8 - 13)", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
 

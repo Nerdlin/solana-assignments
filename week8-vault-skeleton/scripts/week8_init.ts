@@ -30,7 +30,7 @@ function loadKeypair(): Keypair {
 
 async function main() {
   console.log("====================================================");
-  console.log("🏛️  [Неделя 8] Инициализация Liquidity Vault и User Card");
+  console.log("🏛️  [Неделя 8] Инициализация Solana CLMM Vault и User Card");
   console.log("====================================================");
 
   const rpcUrl = process.env.HELIUS_RPC_URL || "https://api.devnet.solana.com";

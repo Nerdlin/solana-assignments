@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-/// Ошибки программы Liquidity Vault
+/// Ошибки программы Solana CLMM Vault
 #[error_code]
 pub enum VaultError {
     #[msg("Сумма должна быть больше нуля")]

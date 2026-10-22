@@ -1,6 +1,6 @@
 # Неделя 10: CPI и вывод средств (withdraw)
 
-Программа хранилища (**Liquidity Vault**) — механизм вывода средств через **Cross-Program Invocation (CPI)** в SPL Token Program с PDA-подписью (`invoke_signed`), сжигание share-токенов и возврат базовых активов.
+Программа хранилища (**Solana CLMM Vault**) — механизм вывода средств через **Cross-Program Invocation (CPI)** в SPL Token Program с PDA-подписью (`invoke_signed`), сжигание share-токенов и возврат базовых активов.
 
 ---
 

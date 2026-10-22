@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-/// Состояние общего хранилища (Liquidity Vault).
+/// Состояние общего хранилища (Solana CLMM Vault).
 /// PDA seeds: `[b"vault", token_mint.key().as_ref()]`
 #[account]
 #[derive(Default)]

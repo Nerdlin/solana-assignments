@@ -1,4 +1,4 @@
-# ⚡ Solana Engineering & Solana CLMM Vault(Weeks 3–13)
+# ⚡ Solana Engineering & Solana CLMM Vault (Weeks 3–13)
 
 <div align="center">
 

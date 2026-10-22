@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "programs/week13_clmm_position"
+]
+resolver = "2"

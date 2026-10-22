@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "programs/week10_cpi_withdraw"
+]
+resolver = "2"

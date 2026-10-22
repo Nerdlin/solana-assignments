@@ -1,0 +1,32 @@
+{
+  "name": "liquidity_vault",
+  "version": "0.1.0",
+  "description": "Liquidity Vault сквозной проект Solana (Недели 8-13)",
+  "scripts": {
+    "test": "ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts",
+    "init-vault": "ts-node scripts/week8_init.ts",
+    "deposit": "ts-node scripts/week9_deposit.ts",
+    "withdraw": "ts-node scripts/week10_withdraw.ts",
+    "create-pool": "ts-node scripts/week11_create_tokens_and_pool.ts",
+    "swap": "ts-node scripts/week12_swap.ts",
+    "position": "ts-node scripts/week13_position_management.ts"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
+    "@raydium-io/raydium-sdk-v2": "^0.1.95-beta",
+    "@solana/spl-token": "^0.4.8",
+    "@solana/web3.js": "^1.95.8",
+    "decimal.js": "^10.4.3",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.16",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.12.7",
+    "chai": "^4.4.1",
+    "mocha": "^10.4.0",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}

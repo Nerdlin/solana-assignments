@@ -45,7 +45,8 @@ $$P(i) = 1.0001^i$$
 Для эффективных вычислений на блокчейне без потери точности и работы с дробями используется квадратный корень цены, умноженный на $2^{64}$:
 
 $$\sqrt{P(i)} = 1.0001^{i / 2}$$
-$$\text{sqrt\_price\_x64} = \left\lfloor \sqrt{P} \times 2^{64} \right\rfloor$$
+$$\text{SqrtPriceX64} = \left\lfloor \sqrt{P} \cdot 2^{64} \right\rfloor$$
+где `sqrt_price_x64 = floor(sqrt(P) * 2^64)`.
 
 ```mermaid
 graph LR

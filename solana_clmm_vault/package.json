@@ -1,7 +1,7 @@
 {
-  "name": "liquidity_vault",
+  "name": "solana-clmm-vault",
   "version": "0.1.0",
-  "description": "Liquidity Vault сквозной проект Solana (Недели 8-13)",
+  "description": "Solana CLMM Vault: сквозной DeFi протокол на Solana (Raydium CLMM CPI)",
   "scripts": {
     "test": "ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts",
     "init-vault": "ts-node scripts/week8_init.ts",

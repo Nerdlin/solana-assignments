@@ -11,7 +11,8 @@
    - Проверить, что пользователь владеет достаточным количеством акций и карточка `UserCard` принадлежит ему.
    - Сжечь share-токены на аккаунте пользователя через CPI `token::burn`.
    - Рассчитать причитающееся количество токенов по текущей стоимости пула:
-     $$\text{tokens\_to\_return} = \left\lfloor \frac{\text{shares} \times \text{total\_vault\_tokens}}{\text{total\_shares}} \right\rfloor$$
+     $$\text{TokensReturned} = \left\lfloor \frac{\text{SharesBurned} \cdot \text{TotalTokens}}{\text{TotalShares}} \right\rfloor$$
+     где `tokens_to_return = floor(shares * total_vault_tokens / total_shares)`.
    - Вывести средства из `vault_tokens` на личный токен-аккаунт инвестора через CPI `token::transfer` с использованием сидов и бампа хранилища (`seeds: [b"vault", token_mint.as_ref(), &[bump]]`).
    - Уменьшить счётчики `total_vault_tokens` и `total_shares` в `VaultState`, а также `shares_owned` в `UserCard`.
 2. Создать скрипт автоматизированного вывода в devnet (`scripts/week10_withdraw.ts`).
@@ -113,7 +114,7 @@ npx ts-node scripts/week10_withdraw.ts
 1. **Почему `token::burn` не требует `new_with_signer` от программы?**
    > *Ответ:* Сжигание происходит с токен-аккаунта самого пользователя (`user_share_account`). Владельцем (authority) этого аккаунта является сам пользователь, поэтому инструкцию `burn` подписывает пользователь своей транзакционной подписью (`ctx.accounts.user`).
 2. **Как рассчитывается вывод, если хранилище получило прибыль или убыток?**
-   > *Ответ:* Расчёт строго пропорционален: $\text{tokens} = \frac{\text{shares} \times \text{total\_vault\_tokens}}{\text{total\_shares}}$. Если в пуле стало больше токенов за счёт комиссий swap, каждая акция приносит больше базовых токенов, чем при депозите.
+   > *Ответ:* Расчёт строго пропорционален: $\text{tokens} = \frac{\text{Shares} \cdot \text{TotalTokens}}{\text{TotalShares}}$. Если в пуле стало больше токенов за счёт комиссий swap, каждая акция приносит больше базовых токенов, чем при депозите.
 3. **Что предотвращает несанкционированный вывод токенов злоумышленником?**
    > *Ответ:* Проверки констрейнтов Anchor (`seeds` и `bump`), проверка владения карточкой (`user_card.owner == user.key()`), а также обязательное наличие и сжигание реальных share-токенов на счёте вызывающего.
 4. **Что происходит при частичном выводе (partial withdraw)?**

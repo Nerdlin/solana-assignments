@@ -47,12 +47,13 @@ sequenceDiagram
 
 ### 1. Первый депозит (Initial Deposit)
 Когда хранилище пусто (`total_shares == 0` или `total_vault_tokens == 0`):
-$$\text{shares\_to\_mint} = \text{amount}$$
-Соотношение задаётся $1:1$.
+$$\text{Shares} = \text{Amount}$$
+Соотношение задаётся $1:1$ (`shares_to_mint = amount`).
 
 ### 2. Последующие депозиты (Subsequent Deposits)
 Когда пул уже содержит активы и выпущенные акции:
-$$\text{shares\_to\_mint} = \left\lfloor \frac{\text{amount} \times \text{total\_shares}}{\text{total\_vault\_tokens}} \right\rfloor$$
+$$\text{Shares} = \left\lfloor \frac{\text{Amount} \cdot \text{TotalShares}}{\text{TotalTokens}} \right\rfloor$$
+где `shares_to_mint = floor(amount * total_shares / total_vault_tokens)`.
 
 Все вычисления производятся с расширением типов до `u128` с обязательным контролем переполнений (`checked_mul`, `checked_div`):
 ```rust
@@ -68,7 +69,7 @@ let shares_to_mint: u64 = if vault.total_shares == 0 || vault.total_vault_tokens
 ```
 
 > [!NOTE]
-> Если хранилище получает прибыль (например, комиссии от AMM swap), `total_vault_tokens` растёт без выпуска новых акций. В результате цена одной акции $\frac{\text{total\_vault\_tokens}}{\text{total\_shares}}$ увеличивается, защищая инвесторов от размытия долей.
+> Если хранилище получает прибыль (например, комиссии от AMM swap), `total_vault_tokens` растёт без выпуска новых акций. В результате цена одной акции $\frac{\text{TotalTokens}}{\text{TotalShares}}$ увеличивается, защищая инвесторов от размытия долей.
 
 ---
 

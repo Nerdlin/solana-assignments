@@ -100,7 +100,7 @@ flowchart TB
 | **11** | **AMM & Concentrated Liquidity** | Создание двух SPL-токенов, инициализация пула Raydium CLMM на Devnet, математика тиков $P(i) = 1.0001^i$, расчет `sqrt_price_x64` ($2^{64}$). | [`week11-clmm-pool/`](./week11-clmm-pool/) | [`718490e`](https://github.com/Nerdlin/solana-assignments/commit/718490e) |
 | **12** | **Swap via Raydium CLMM** | Инструкция `swap_raydium`: CPI в контракт Raydium CLMM, защита от проскальзывания (`slippage`), ценовые стоп-лимиты и оракулы TWAP. | [`week12-swap/`](./week12-swap/) | [`e1588af`](https://github.com/Nerdlin/solana-assignments/commit/e1588af) |
 | **13** | **CLMM Position Lifecycle** | Инструкции `open_raydium_position` и `close_raydium_position`: минтинг Position NFT, добавление ликвидности, сбор комиссий (fee harvest) и Impermanent Loss. | [`week13-clmm-position/`](./week13-clmm-position/) | [`4babd93`](https://github.com/Nerdlin/solana-assignments/commit/4babd93) |
-| **Full** | **Unified Liquidity Vault Project** | Единая сквозная кодовая база пула ликвидности с полной поддержкой Anchor 0.31.1, Raydium CLMM CPI и комплексным набором модульных тестов. | [`liquidity_vault/`](./liquidity_vault/) | [`a1d16f3`](https://github.com/Nerdlin/solana-assignments/commit/a1d16f3) |
+| **Full** | **Unified Solana CLMM Vault** | Единая сквозная кодовая база пула ликвидности с полной поддержкой Anchor 0.31.1, Raydium CLMM CPI и комплексным набором модульных тестов. | [`solana_clmm_vault/`](./solana_clmm_vault/) | [`a1d16f3`](https://github.com/Nerdlin/solana-assignments/commit/a1d16f3) |
 
 ---
 
@@ -120,19 +120,23 @@ flowchart TB
 ## 🔬 Математика и ключевые формулы
 
 ### 1. Пропорциональный минтинг акций хранилища (Неделя 9)
-Первый депозит: $\text{shares\_to\_mint} = \text{amount}$  
-Последующие депозиты:
-$$\text{shares\_to\_mint} = \left\lfloor \frac{\text{amount} \times \text{total\_shares}}{\text{total\_vault\_tokens}} \right\rfloor$$
+- **Первый депозит:**
+  $$\text{Shares} = \text{Amount}$$
+- **Последующие депозиты:**
+  $$\text{Shares} = \left\lfloor \frac{\text{Amount} \cdot \text{TotalShares}}{\text{TotalTokens}} \right\rfloor$$
+  где `shares_to_mint = floor(amount * total_shares / total_vault_tokens)`.
 
 ### 2. Возврат активов при сжигании долей (Неделя 10)
-$$\text{tokens\_to\_return} = \left\lfloor \frac{\text{shares\_to\_burn} \times \text{total\_vault\_tokens}}{\text{total\_shares}} \right\rfloor$$
+$$\text{TokensReturned} = \left\lfloor \frac{\text{SharesBurned} \cdot \text{TotalTokens}}{\text{TotalShares}} \right\rfloor$$
+где `tokens_to_return = floor(shares_to_burn * total_vault_tokens / total_shares)`.
 
 ### 3. Концентрированная ликвидность и тики Raydium CLMM (Неделя 11)
 $$P(i) = 1.0001^i, \quad \sqrt{P(i)} = 1.0001^{i / 2}$$
-$$\text{sqrt\_price\_x64} = \lfloor \sqrt{P} \times 2^{64} \rfloor$$
+$$\text{SqrtPriceX64} = \lfloor \sqrt{P} \cdot 2^{64} \rfloor$$
+где `sqrt_price_x64 = floor(sqrt(P) * 2^64)`.
 
 ### 4. Непостоянные потери (Impermanent Loss) (Неделя 13)
-$$IL(k) = \frac{2 \sqrt{k}}{1 + k} - 1, \quad \text{где } k = \frac{P_{new}}{P_{old}}$$
+$$IL(k) = \frac{2 \sqrt{k}}{1 + k} - 1, \quad k = \frac{P_{\text{new}}}{P_{\text{old}}}$$
 
 ---
 
@@ -141,7 +145,7 @@ $$IL(k) = \frac{2 \sqrt{k}}{1 + k} - 1, \quad \text{где } k = \frac{P_{new}}{
 ### Запуск модульных тестов сквозного проекта
 ```bash
 # Переход в директорию сквозного проекта
-cd liquidity_vault
+cd solana_clmm_vault
 
 # Установка изолированного каталога сборки (защита от кириллицы в Windows)
 $env:CARGO_TARGET_DIR="C:\temp\cargo_target"
@@ -162,7 +166,7 @@ cd ../week13-clmm-position && cargo test
 
 ### Запуск клиентских скриптов взаимодействия с Devnet
 ```bash
-cd liquidity_vault
+cd solana_clmm_vault
 npm run init-vault     # Неделя 8: Создание Vault и карточки пользователя
 npm run deposit        # Неделя 9: Депозит и получение долей (shares)
 npm run withdraw       # Неделя 10: Сжигание долей и вывод базовых токенов

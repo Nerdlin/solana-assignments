@@ -39,21 +39,21 @@
 
 ```mermaid
 graph TD
-    Admin([Кошелек Администратора]) -->|initialize_vault| VaultState[VaultState PDA\nseeds: 'vault', token_mint]
-    User([Кошелек Пользователя]) -->|create_user_card| UserCard[UserCard PDA\nseeds: 'user_card', vault, user]
+    Admin(["Кошелек Администратора"]) -->|initialize_vault| VaultState["VaultState PDA<br/>seeds: 'vault', token_mint"]
+    User(["Кошелек Пользователя"]) -->|create_user_card| UserCard["UserCard PDA<br/>seeds: 'user_card', vault, user"]
     
-    VaultState -.->|authority| VaultTokens[vault_token_account PDA\nseeds: 'vault_tokens', token_mint]
-    VaultState -.->|authority| ShareMint[share_mint PDA\nseeds: 'share_mint', token_mint]
-    VaultState -.->|authority| VaultTokensB[vault_second_token_account\n(Token B / wSOL)]
+    VaultState -.->|authority| VaultTokens["vault_token_account PDA<br/>seeds: 'vault_tokens', token_mint"]
+    VaultState -.->|authority| ShareMint["share_mint PDA<br/>seeds: 'share_mint', token_mint"]
+    VaultState -.->|authority| VaultTokensB["vault_second_token_account<br/>Token B / wSOL"]
     
     User -->|deposit Token A| VaultTokens
-    ShareMint -->|mint shares| UserShares[ATA пользователя\nдля share-токенов]
+    ShareMint -->|mint shares| UserShares["ATA пользователя<br/>для share-токенов"]
     
     UserShares -->|burn shares| ShareMint
     VaultTokens -->|withdraw Token A| User
     
-    VaultState ===|CPI Swap & Manage Position| RaydiumPool[Raydium CLMM Pool\namm_config, pool_state,\ntoken_vault_0, token_vault_1,\ntick_arrays]
-    VaultState -.->|owner| PositionNFT[CLMM Position NFT\nPersonalPositionState]
+    VaultState ===|CPI Swap & Manage Position| RaydiumPool["Raydium CLMM Pool<br/>amm_config, pool_state,<br/>token_vault_0, token_vault_1,<br/>tick_arrays"]
+    VaultState -.->|owner| PositionNFT["CLMM Position NFT<br/>PersonalPositionState"]
 ```
 
 ### Сиды и спецификация PDA
@@ -70,13 +70,13 @@ graph TD
 ## 📂 Структура репозитория
 
 ```
-liquidity_vault/
+solana_clmm_vault/
 ├── Anchor.toml                                # Конфигурация Anchor и сети Devnet
 ├── Cargo.toml                                 # Воркспейс манифест Rust
 ├── package.json                               # Зависимости TypeScript и NPM-скрипты
 ├── tsconfig.json                              # Настройки компилятора TypeScript
 ├── programs/
-│   └── liquidity_vault/
+│   └── solana_clmm_vault/
 │       ├── Cargo.toml                         # Манифест контракта (anchor-lang, raydium-clmm-cpi)
 │       └── src/
 │           ├── lib.rs                         # Точка входа программы, макрос #[program], unit-тесты
@@ -277,14 +277,14 @@ liquidity_vault/
 Для сборки с учетом пути рабочего каталога на Windows:
 ```powershell
 $env:CARGO_TARGET_DIR="C:\temp\cargo_target"
-cd liquidity_vault
+cd solana_clmm_vault
 cargo test
 ```
 *Результат: все 6 модульных тестов успешно проходят (`6 passed; 0 failed`).*
 
 ### 3. Установка зависимостей TypeScript
 ```powershell
-cd liquidity_vault
+cd solana_clmm_vault
 npm install
 ```
 

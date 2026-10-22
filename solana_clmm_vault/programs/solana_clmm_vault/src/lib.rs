@@ -41,7 +41,7 @@ pub(crate) use instructions::withdraw::{
 declare_id!("EbojNUfh9Jk6dyZaaQAJWofbdnkvdxfQbeAPq6iWoHAu");
 
 #[program]
-pub mod liquidity_vault {
+pub mod solana_clmm_vault {
     use super::*;
 
     /// Неделя 8: Создать vault для SPL-токена

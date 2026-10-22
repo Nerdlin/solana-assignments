@@ -14,7 +14,7 @@ import {
   Transaction,
 } from "@solana/web3.js";
 import { assert, expect } from "chai";
-import { LiquidityVault } from "../target/types/liquidity_vault";
+import { SolanaClmmVault } from "../target/types/solana_clmm_vault";
 
 // Перевод SOL от admin к аккаунту для покрытия rent
 async function fundFromAdmin(
@@ -33,7 +33,7 @@ describe("Liquidity Vault (Недели 8 - 13)", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
 
-  const program = anchor.workspace.LiquidityVault as Program<LiquidityVault>;
+  const program = (anchor.workspace.SolanaClmmVault || anchor.workspace.solana_clmm_vault) as Program<SolanaClmmVault>;
   const admin = (provider.wallet as anchor.Wallet).payer;
 
   // Пользователи

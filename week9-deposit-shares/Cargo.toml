@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "programs/week9_deposit_shares"
+]
+resolver = "2"
